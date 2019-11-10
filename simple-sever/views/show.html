@@ -1,0 +1,6 @@
+{% extends 'layout.html' %} {% block title %}{{ log.title }}{% endblock %} {%
+block content %}
+<a href="/">返回列表</a>
+<h1>{{ log.id }}</h1>
+<pre>{{ JSON.stringify(log, null, 4) }}</pre>
+{% endblock %}

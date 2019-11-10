@@ -1,0 +1,62 @@
+{% extends 'layout.html' %} {% block title %}New Log{% endblock %} {% block
+content %}
+<a href="/">返回列表</a>
+<h1>New Log</h1>
+<p>Create a new log.</p>
+<form id="postLogForm" action="">
+  <p>
+    <span>等级：</span>
+    <select name="level">
+      <option value="emerg">emerg</option>
+      <option value="alert">alert</option>
+      <option value="crit">crit</option>
+      <option value="error">error</option>
+      <option value="warning">warning</option>
+      <option value="notice">notice</option>
+      <option value="info" selected>info</option>
+      <option value="debug">debug</option>
+    </select>
+  </p>
+  <p><span>标签：</span> <input name="tags" type="text" />（逗号分隔）</p>
+  <p><span>内容：</span> <textarea name="content">{}</textarea>（JSON）</p>
+  <p><input type="submit" value="Create log" /></p>
+</form>
+
+<script>
+  postLogForm.onsubmit = function(e) {
+    e.preventDefault();
+    const formData = new FormData(postLogForm);
+    const tags = formData.get("tags");
+    const level = formData.get("level");
+    let content = {};
+    try {
+      content = JSON.parse(formData.get("content"));
+    } catch (error) {
+      alert("JSON 格式错误");
+      return;
+    }
+
+    fetch(`/input/new/tag/${tags}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ...content,
+        level
+      })
+    })
+      .then(d => d.json())
+      .then(d => {
+        if (d.response === "ok") {
+          alert("添加成功");
+        } else {
+          alert("错误");
+        }
+      })
+      .catch(e => {
+        alert("错误");
+      });
+  };
+</script>
+{% endblock %}

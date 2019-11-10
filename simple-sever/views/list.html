@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block title %}Logs{% endblock %}
+
+{% block content %}
+  <h1>Logs</h1>
+  <p>You have <strong>{{ logs.length }}</strong> logs!</p>
+  <p><a href="/log/new">Create a Log</a></p>
+  <ul id="logs">
+    {% for log in logs%}
+      <li>
+        <h2>{{ JSON.stringify(log) }}</h2>
+        <p><a href="/log/{{ log.id }}">Read log</a></p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
