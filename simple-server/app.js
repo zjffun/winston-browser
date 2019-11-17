@@ -4,9 +4,16 @@ const router = require("koa-router")();
 const koaBody = require("koa-body");
 const uuidv1 = require("uuid/v1");
 const Koa = require("koa");
-const { createLogger, format, transports } = require("winston");
+const {
+  createLogger,
+  format,
+  transports,
+  config: winstonConfig
+} = require("winston");
 
 const app = (module.exports = new Koa());
+
+const defaultLevel = "info";
 
 // middleware
 
@@ -22,7 +29,7 @@ router
   .get("/", list)
   .get("/log/new", add)
   .get("/log/:id", show)
-  .all("/input/:token/tag/:tags", input);
+  .all("/inputs/:token/tag/:tags", inputs);
 
 app.use(router.routes());
 
@@ -30,20 +37,21 @@ app.use(router.routes());
 const { combine, timestamp, json } = format;
 const logger = createLogger({
   level: "info",
+  levels: winstonConfig.syslog.levels,
   format: combine(timestamp(), json()),
-  transports: [
-    new transports.File({ filename: "combined.log" })
-  ]
+  transports: [new transports.File({ filename: "combined.log" })]
 });
 
-async function input(ctx) {
+async function inputs(ctx) {
   try {
     const { token, tags } = ctx.params;
     const body = ctx.request.body;
     const content = typeof body === "object" ? body : { data: body };
+    const level = content.level || defaultLevel;
 
     const log = {
       ...content,
+      level,
       tags: tags.split(","),
       id: uuidv1(),
       token
