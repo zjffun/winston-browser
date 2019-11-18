@@ -24,15 +24,16 @@ After sending the event, you should see the response ok which indicates we recei
 eg: 
 
 ```bash
-curl http://localhost:3000/inputs/my-token/tag/tag1,tag2/ -H "content-type:application/x-www-form-urlencoded" -d "{\"message\":\"hello world\", \"from\":\"form hoover\"}" 
-```
-
-```bash
 curl http://localhost:3000/inputs/my-token/tag/tag1,tag2/ -H "content-type:application/json" --data-binary "{\"message\":\"hello world\", \"from\":\"form hoover\"}"
 ```
 
 ```bash
 curl http://localhost:3000/inputs/my-token/tag/tag1,tag2/ -H "content-type:text/plain" -d "hello world from text" 
+```
+
+not support..
+```bash
+curl http://localhost:3000/inputs/my-token/tag/tag1,tag2/ -H "content-type:application/x-www-form-urlencoded" -d "{\"message\":\"hello world\", \"from\":\"form hoover\"}" 
 ```
 
 ### Select Events
