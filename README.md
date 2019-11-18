@@ -15,6 +15,12 @@ Using Loggly like API, see [HTTP/S Event Endpoint](https://www.loggly.com/docs/h
 curl ORIGIN/inputs/TOKEN/tag/TAGS/ -H "content-type:application/x-www-form-urlencoded" -d "{\"message\":\"hello world\", \"from\":\"hoover\"}" 
 ```
 
+After sending the event, you should see the response ok which indicates we received it.
+
+```json
+{"response" : "ok"}
+```
+
 eg: 
 
 ```bash
@@ -22,7 +28,7 @@ curl http://localhost:3000/inputs/my-token/tag/tag1,tag2/ -H "content-type:appli
 ```
 
 ```bash
-curl http://localhost:3000/inputs/my-token/tag/tag1,tag2/ -H "content-type:application/json" -d '{"message":"hello world", "from":"json hoover"}'
+curl http://localhost:3000/inputs/my-token/tag/tag1,tag2/ -H "content-type:application/json" --data-binary "{\"message\":\"hello world\", \"from\":\"form hoover\"}"
 ```
 
 ```bash

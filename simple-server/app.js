@@ -67,9 +67,9 @@ async function inputs(ctx) {
 
 async function list(ctx) {
   const options = {
-    from: new Date() - 24 * 60 * 60 * 1000,
+    from: new Date() - 30 * 24 * 60 * 60 * 1000,
     until: new Date(),
-    limit: 10,
+    limit: 999,
     start: 0,
     order: "desc"
   };
@@ -92,10 +92,11 @@ async function add(ctx) {
 async function show(ctx) {
   const id = ctx.params.id;
   const options = {
-    limit: 1,
+    from: new Date() - 30 * 24 * 60 * 60 * 1000,
+    until: new Date(),
+    limit: 999,
     start: 0,
-    order: "desc",
-    q: `id:${id}`
+    order: "desc"
   };
 
   const logs = await new Promise((res, rej) =>
@@ -106,8 +107,11 @@ async function show(ctx) {
       res(results);
     })
   );
+
   if (!logs.file.length) ctx.throw(404, "invalid post id");
-  await ctx.render("show", { log: logs.file[0] });
+
+  const log = logs.file.find(d => d.id === id);
+  await ctx.render("show", { log });
 }
 
 // listen
