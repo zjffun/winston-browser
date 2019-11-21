@@ -1,0 +1,44 @@
+<script>
+  var loggingURL =
+    "https://logs-01.loggly.com/inputs/58a37e7d-e7c9-4cc5-8c92-00f96681d2ad/tag/http,js/";
+
+  function reportError({ message = "", stack = "" }) {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    return fetch(loggingURL, {
+      method: "post",
+      headers: myHeaders,
+      body: JSON.stringify({
+        level: "error",
+        context: navigator.userAgent,
+        message,
+        stack
+      })
+    });
+  }
+
+  try {
+    throw new EvalError("eval error");
+  } catch (e) {
+    reportError(e);
+  }
+
+  try {
+    a.b;
+  } catch (e) {
+    reportError(e);
+  }
+
+  try {
+    a.b;
+  } catch (e) {
+    reportError(e);
+  }
+
+  try {
+    null.f();
+  } catch (e) {
+    reportError(e);
+  }
+</script>

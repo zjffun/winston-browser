@@ -39,3 +39,20 @@ curl http://localhost:3000/inputs/my-token/tag/tag1,tag2/ -H "content-type:appli
 ### Select Events
 
 Open `ORIGIN` in browser, eg: `http://localhost:3000/`
+
+
+
+- page
+    - navBar
+        - navbarItem
+
+- search
+    - tabBar
+    - searchBar(condition(tag), time)
+    - eventChartsWrapper
+        - eventTimeline
+        - eventChart
+    - eventView
+    - Field
+
+- source setup

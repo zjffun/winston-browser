@@ -1,0 +1,22 @@
+{
+  "name": "winston-browser",
+  "version": "1.0.0",
+  "description": "A browser for winston.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zjffun/winston-browser.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zjffun/winston-browser/issues"
+  },
+  "homepage": "https://github.com/zjffun/winston-browser#readme",
+  "dependencies": {
+    "echarts": "^4.5.0"
+  }
+}
