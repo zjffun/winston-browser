@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/zjffun/winston-browser#readme",
   "dependencies": {
-    "echarts": "^4.5.0"
+    "echarts": "^4.5.0",
+    "stylus": "^0.54.7"
   }
 }
