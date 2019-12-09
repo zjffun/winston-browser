@@ -1,6 +1,8 @@
 import React from "react";
+import { DatePicker, Button } from "antd";
 import echarts from "echarts";
 import moment from "moment";
+
 import "./App.styl";
 
 import EventView from "./components/EventView.js";
@@ -10,6 +12,8 @@ import EventView from "./components/EventView.js";
 // const dayMs = 24 * hourMs;
 // const monthMs = 30 * dayMs;
 // const yearMs = 12 * monthMs;
+
+const { RangePicker } = DatePicker;
 
 const steps = {
   minutes10: {
@@ -82,8 +86,35 @@ class App extends React.Component {
     };
   }
   componentDidMount() {
+    this.fetchEvents();
     this.setEventBar();
   }
+
+  fetchEvents() {
+    // fetch(`${window.location.origin}/api/list`)
+    fetch(`http://localhost:3000/api/list`)
+      .then(d => d.json())
+      .then(d => {
+        this.setState(
+          {
+            events: d.file
+          },
+          () => {
+            this.setEventBar();
+          }
+        );
+      });
+  }
+
+  handleDateRangeChange = date => {
+    this.setState({
+      startTime: date[0],
+      endTime: date[1]
+    });
+  };
+  handleSearchClick = () => {
+    this.setEventBar();
+  };
   setEventBar() {
     const { startTime, endTime, events } = this.state;
     const eventChart = echarts.init(this.eventChartRef.current);
@@ -172,11 +203,27 @@ class App extends React.Component {
             <li>default3</li>
             <li>new</li>
           </ul> */}
-          {/* <div className="searchBar">
-            <input type="text" />
-            <span>时间选择器</span>
-            <button>搜索</button>
-          </div> */}
+          <div className="searchBar">
+            <RangePicker
+              ranges={{
+                Today: [moment(), moment()],
+                "This Month": [
+                  moment().startOf("month"),
+                  moment().endOf("month")
+                ],
+                "This Year": [
+                  moment().startOf("month"),
+                  moment().endOf("month")
+                ]
+              }}
+              showTime
+              format="YYYY/MM/DD HH:mm:ss"
+              onChange={this.handleDateRangeChange}
+            />
+            <Button type="primary" onClick={this.handleSearchClick}>
+              Search
+            </Button>
+          </div>
           <div>
             <div className="left"></div>
             <div className="right">

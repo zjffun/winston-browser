@@ -27,6 +27,7 @@ app.use(koaBody());
 
 router
   .get("/", list)
+  .get("/api/list", apiList)
   .get("/log/new", add)
   .get("/log/:id", show)
   .all("/inputs/:token/tag/:tags", inputs);
@@ -83,6 +84,27 @@ async function list(ctx) {
     })
   );
   await ctx.render("list", { logs: logs.file });
+}
+
+async function apiList(ctx) {
+  const options = {
+    from: new Date() - 36 * 30 * 24 * 60 * 60 * 1000,
+    until: new Date(),
+    limit: 999,
+    start: 0,
+    order: "desc"
+  };
+
+  const logs = await new Promise((res, rej) =>
+    logger.query(options, function(err, results) {
+      if (err) {
+        rej(err);
+      }
+      res(results);
+    })
+  );
+  ctx.set("Access-Control-Allow-Origin", "*");
+  ctx.body = logs;
 }
 
 async function add(ctx) {
